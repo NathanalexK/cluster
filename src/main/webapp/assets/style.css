@@ -1,0 +1,93 @@
+html, body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.title {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+table {
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+    width: 100%;
+}
+
+
+th {
+    background-color: #4a964a;
+    color: white;
+}
+
+tbody tr{
+    /*background-color: #d1ef99;*/
+}
+
+td, th {
+    /*outline: solid 1px;*/
+    /*outline-bottom: solid 1px;*/
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    /*width: 70%;*/
+    /*border-right: solid 1px;*/
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+}
+
+.content {
+    width: 100%;
+    /*margin-left: 2rem;*/
+}
+
+.content {
+    /*margin-left: 1rem;*/
+}
+.sidebar {
+    background-color: #4a964a;
+    padding: 10px;
+    /*padding: 2rem;*/
+    text-wrap: nowrap;
+    width: 20%;
+}
+
+.sidebar .list {
+    background-color: white;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.list-head {
+    text-align: center;
+    background-color: yellowgreen;
+}
+
+ul {
+    margin: 5px;
+    padding-left: 1rem;
+    font-size: 14px;
+}
+
+h2 {
+    margin: 0;
+    width: 100%;
+    background-color: yellowgreen;
+    padding: 0 0.5rem;
+}
+
+h4 {
+    margin: 0;
+    background-color: #d1ef99;
+    padding: 0 0.5rem;
+}

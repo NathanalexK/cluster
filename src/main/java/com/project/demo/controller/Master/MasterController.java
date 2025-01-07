@@ -23,6 +23,12 @@ public class MasterController extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         String ip1 = req.getParameter("ip1");
         String ip2 = req.getParameter("ip2");
 
@@ -32,6 +38,7 @@ public class MasterController extends HttpServlet {
             String query = "show master status";
             try (Statement statement = con.createStatement()) {
                 ResultSet rs = statement.executeQuery(query);
+                rs.next();
 
                 ms.setMasterLogFile(rs.getString("File"));
                 ms.setPosition(rs.getString("Position"));

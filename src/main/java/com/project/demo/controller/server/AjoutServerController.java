@@ -19,13 +19,13 @@ public class AjoutServerController extends HttpServlet {
         HaProxy haProxy = HaProxy.getInstance();
         String instanceName = req.getParameter("instance");
         String serverName = req.getParameter("serverName");
-        if(instanceName != null && serverName != null) {
-            Instance instance
-            Server server = haProxy.findInstanceByName(instanceName).getServerByName(serverName).orElse(null);
-            req.setAttribute("instance", );
-            req.setAttribute("server", server);
-
-        }
+//        if(instanceName != null && serverName != null) {
+//            Instance instance
+//            Server server = haProxy.findInstanceByName(instanceName).getServerByName(serverName).orElse(null);
+//            req.setAttribute("instance", );
+//            req.setAttribute("server", server);
+//
+//        }
 
         req.setAttribute("instances", haProxy.getInstances());
         req.setAttribute("content", "server/saisie");

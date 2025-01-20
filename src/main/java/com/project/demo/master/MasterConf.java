@@ -1,16 +1,23 @@
 package com.project.demo.master;
 
-public class MasterStatus {
+public class MasterConf {
     String masterLogFile;
     String position;
     String masterIp;
     String user;
     String password;
 
-    public MasterStatus(String masterIp, String user, String password) {
+    public MasterConf(String masterIp, String user, String password) {
         this.masterIp = masterIp;
         this.user = user;
         this.password = password;
+    }
+
+
+    public MasterConf(InstancePc pc) {
+        this.masterIp = pc.ip;
+        this.user = pc.user;
+        this.password = pc.password;
     }
 
     public String getMasterLogFile() {
@@ -35,5 +42,14 @@ public class MasterStatus {
 
     public void setMasterIp(String masterIp) {
         this.masterIp = masterIp;
+    }
+
+    public String generateMasterQuery() {
+        return "CHANGE MASTER TO" +
+                "    MASTER_HOST='" + masterIp + "'," +
+                "    MASTER_USER='" + user + "'," +
+                "    MASTER_PASSWORD='" + password + "'," +
+                "    MASTER_LOG_FILE='" + masterLogFile + "'," +
+                "    MASTER_LOG_POS=" + position + ";";
     }
 }

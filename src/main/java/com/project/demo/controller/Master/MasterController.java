@@ -1,6 +1,7 @@
 package com.project.demo.controller.Master;
 
-import com.project.demo.master.MasterStatus;
+import com.project.demo.master.InstancePc;
+import com.project.demo.master.MasterConf;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +16,7 @@ import java.sql.*;
 public class MasterController extends HttpServlet {
 
     public static String url = "jdbc:mysql://localhost:3306/pokemon";
-    String user = "root";
+    String user = "replicator";
     String password = "root";
 
     @Override
@@ -29,10 +30,10 @@ public class MasterController extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        String ip1 = req.getParameter("ip1");
-        String ip2 = req.getParameter("ip2");
+        InstancePc pc1 = new InstancePc("172.10.191.78", "root", "root");
+        InstancePc pc2 = new InstancePc("localhost", "root", "root");
 
-        MasterStatus ms = new MasterStatus("localhost",user, password);
+        MasterConf ms = new MasterConf(pc2);
         try (Connection con = DriverManager.getConnection(url, user, password)) {
 
             String query = "show master status";
@@ -43,7 +44,7 @@ public class MasterController extends HttpServlet {
                 ms.setMasterLogFile(rs.getString("File"));
                 ms.setPosition(rs.getString("Position"));
                 out.print(ms.getMasterLogFile());
-                out.print(ms.getPosition());
+                out.print(ms.generateMasterQuery());
             }
 
         } catch (SQLException e) {

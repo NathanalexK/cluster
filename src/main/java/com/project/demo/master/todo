@@ -1,1 +1,5 @@
 grant all privileges on . to 'root'@'LAPTOP-H3FGBG6J' identified by 'root';
+grant all privileges on *.* to 'replicator'@'%';
+
+show master status
+show slave status\G

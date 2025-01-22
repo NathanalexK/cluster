@@ -13,6 +13,9 @@ public class MasterConf {
         this.password = password;
     }
 
+    public String jdbcUrl() {
+        return "jdbc:mysql://" + getMasterIp() + ":3306/pokemon";
+    }
 
     public MasterConf(InstancePc pc) {
         this.masterIp = pc.ip;

@@ -30,11 +30,11 @@ public class MasterController extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        InstancePc pc1 = new InstancePc("172.10.191.78", "root", "root");
-        InstancePc pc2 = new InstancePc("localhost", "root", "root");
+        InstancePc myPc = new InstancePc("192.168.88.27", "root", "root");
+        InstancePc remotePc = new InstancePc("172.10.191.78", "root", "root");
 
-        MasterConf ms = new MasterConf(pc2);
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
+        MasterConf ms = new MasterConf(remotePc);
+        try (Connection con = DriverManager.getConnection(ms.jdbcUrl(), user, password)) {
 
             String query = "show master status";
             try (Statement statement = con.createStatement()) {

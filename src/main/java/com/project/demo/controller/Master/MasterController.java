@@ -31,10 +31,10 @@ public class MasterController extends HttpServlet {
         }
 
         InstancePc myPc = new InstancePc("192.168.88.27", "root", "root");
-        InstancePc remotePc = new InstancePc("172.10.191.78", "root", "root");
+        InstancePc remotePc = new InstancePc("192.168.7.158", "root", "root");
 
         MasterConf ms = new MasterConf(remotePc);
-        try (Connection con = DriverManager.getConnection(ms.jdbcUrl(), user, password)) {
+        try (Connection con = DriverManager.getConnection(ms.jdbcUrl(), "replicator", "root")) {
 
             String query = "show master status";
             try (Statement statement = con.createStatement()) {
@@ -43,8 +43,12 @@ public class MasterController extends HttpServlet {
 
                 ms.setMasterLogFile(rs.getString("File"));
                 ms.setPosition(rs.getString("Position"));
-                out.print(ms.getMasterLogFile());
-                out.print(ms.generateMasterQuery());
+
+                String logQuery = ms.generateMasterQuery();
+                statement.executeUpdate("STOP ")
+                statement.executeUpdate(logQuery);
+
+//                out.print(ms.getMasterLogFile());
             }
 
         } catch (SQLException e) {

@@ -1,5 +1,16 @@
+
 grant all privileges on . to 'root'@'LAPTOP-H3FGBG6J' identified by 'root';
 grant all privileges on *.* to 'replicator'@'%';
 
 show master status
 show slave status\G
+select user, host from mysql.user;
+
+grant all privileges on *.* to 'root'@'LAPTOP-H3FGBG6J' identified by 'root';
+
+select user, host, plugin from mysql.user where user='root';
+
+// changer en mysql_native_password
+alter user 'replicator'@'%' identified with mysql_native_password by 'root'
+
+mysql-bin.000020CHANGE MASTER TO MASTER_HOST='192.168.7.158', MASTER_USER='root', MASTER_PASSWORD='root', MASTER_LOG_FILE='mysql-bin.000020', MASTER_LOG_POS=547;

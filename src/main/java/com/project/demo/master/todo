@@ -13,4 +13,7 @@ select user, host, plugin from mysql.user where user='root';
 // changer en mysql_native_password
 alter user 'replicator'@'%' identified with mysql_native_password by 'root'
 
-mysql-bin.000020CHANGE MASTER TO MASTER_HOST='192.168.7.158', MASTER_USER='root', MASTER_PASSWORD='root', MASTER_LOG_FILE='mysql-bin.000020', MASTER_LOG_POS=547;
+CHANGE MASTER TO MASTER_HOST='192.168.7.103', MASTER_USER='replicator', MASTER_PASSWORD='root', MASTER_LOG_FILE='LAPTOP-H3FGBG6J-bin.000061', MASTER_LOG_POS=445;
+
+
+select * from performance_schema.events_statements_summary_by_digest order by last_seen desc limit 20;

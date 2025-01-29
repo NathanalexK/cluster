@@ -18,8 +18,6 @@ public class MasterController extends HttpServlet {
     public static String url = "jdbc:mysql://localhost:3306/pokemon";
     String user = "replicator";
     String password = "root";
-    String pcName = "";
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
@@ -31,11 +29,11 @@ public class MasterController extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        InstancePc myPc = new InstancePc("192.168.7.103", "root", "root");
-        InstancePc remotePc = new InstancePc("192.168.7.158", "root", "root");
+        InstancePc myPc = new InstancePc("192.168.63.103", "root", "root");
+        InstancePc remotePc = new InstancePc("192.168.63.158", "root", "root");
 
-//        MasterConf ms = new MasterConf(remotePc.getIp(), myPc.getIp(), user, password);
-        MasterConf ms = new MasterConf(myPc.getIp(),    remotePc.getIp(), user, password);
+        MasterConf ms = new MasterConf(remotePc.getIp(), myPc.getIp(), user, password);
+//        MasterConf ms = new MasterConf(myPc.getIp(),    remotePc.getIp(), user, password);
         System.out.println(ms.jdbcUrl());
         try (Connection con = DriverManager.getConnection(ms.jdbcUrlMaster(), "replicator", "root")) {
 
@@ -52,10 +50,13 @@ public class MasterController extends HttpServlet {
 //                statement.executeUpdate("STOP ")
 //                statement.executeUpdate(logQuery);
 
+
                 out.print(ms.generateMasterQuery());
             }
 
-        } catch (SQLException e) {
+            ms.startSlaving();
+
+        } catch (SQLException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

@@ -1,5 +1,9 @@
 package com.project.demo.master;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class MasterConf {
     String masterLogFile;
     String position;
@@ -26,7 +30,7 @@ public class MasterConf {
     }
 
     public String jdbcUrlMaster() {
-        return "jdbc:mysql://" + getMasterIp() + ":3306/pokemon";
+        return "jdbc:mysql://" + getMasterIp() + ":3306/?allowMultiQueries=true&allowLoadLocalInfile=true&allowPublicKeyRetrieval=true";
     }
 
     public String getMasterLogFile() {
@@ -84,5 +88,33 @@ public class MasterConf {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void startSlaving() throws IOException, InterruptedException {
+        String commande = "STOP REPLICA;" + generateMasterQuery() + "START REPLICA;";
+
+        ProcessBuilder processBuilder = new ProcessBuilder(
+                "mysql", "-u", "replicator", "-h", this.ip , "-proot", "-e", commande
+        );
+
+        // Exécuter le processus
+        Process process = processBuilder.start();
+
+        // Lire la sortie du processus
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+
+        // Lire les erreurs
+        BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+        while ((line = errorReader.readLine()) != null) {
+            System.err.println(line);
+        }
+
+        // Attendre la fin du processus
+        int exitCode = process.waitFor();
+        System.out.println("Process terminé avec code : " + exitCode);
     }
 }

@@ -12,7 +12,7 @@
 <html>
 <head>
     <title>Cluster Admin</title>
-    <link rel="stylesheet" href="/demo_war_exploded/assets/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/style.css">
 </head>
 <body>
 <div class="container">

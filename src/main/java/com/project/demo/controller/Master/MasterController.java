@@ -1,5 +1,6 @@
 package com.project.demo.controller.Master;
 
+import com.project.demo.haproxy.HaProxy;
 import com.project.demo.master.InstancePc;
 import com.project.demo.master.MasterConf;
 import jakarta.servlet.ServletException;
@@ -19,40 +20,48 @@ public class MasterController extends HttpServlet {
     String user = "replicator";
     String password = "root";
 
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        resp.setContentType("text/html");
+//        PrintWriter out = resp.getWriter();
+//
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        InstancePc myPc = new InstancePc("192.168.88.27", "root", "root");
+//        InstancePc remotePc = new InstancePc("192.168.7.158", "root", "root");
+//
+//        MasterConf ms = new MasterConf(remotePc);
+//        try (Connection con = DriverManager.getConnection(ms.jdbcUrl(), "replicator", "root")) {
+//
+//            String query = "show master status";
+//            try (Statement statement = con.createStatement()) {
+//                ResultSet rs = statement.executeQuery(query);
+//                rs.next();
+//
+//                ms.setMasterLogFile(rs.getString("File"));
+//                ms.setPosition(rs.getString("Position"));
+//
+//                String logQuery = ms.generateMasterQuery();
+//                statement.executeUpdate("STOP");
+//                statement.executeUpdate(logQuery);
+//
+////                out.print(ms.getMasterLogFile());
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
+//        HaProxy haProxy = HaProxy.getInstance();
+//        req.setAttribute("haproxy", haProxy);
+        req.setAttribute("content", "master/masterConfig");
+        req.getRequestDispatcher("/layout.jsp").forward(req, resp);
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        InstancePc myPc = new InstancePc("192.168.88.27", "root", "root");
-        InstancePc remotePc = new InstancePc("192.168.7.158", "root", "root");
-
-        MasterConf ms = new MasterConf(remotePc);
-        try (Connection con = DriverManager.getConnection(ms.jdbcUrl(), "replicator", "root")) {
-
-            String query = "show master status";
-            try (Statement statement = con.createStatement()) {
-                ResultSet rs = statement.executeQuery(query);
-                rs.next();
-
-                ms.setMasterLogFile(rs.getString("File"));
-                ms.setPosition(rs.getString("Position"));
-
-                String logQuery = ms.generateMasterQuery();
-                statement.executeUpdate("STOP ")
-                statement.executeUpdate(logQuery);
-
-//                out.print(ms.getMasterLogFile());
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

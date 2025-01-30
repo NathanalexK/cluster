@@ -58,10 +58,7 @@ public class MasterController extends HttpServlet {
 //    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        HaProxy haProxy = HaProxy.getInstance();
-//        req.setAttribute("haproxy", haProxy);
         req.setAttribute("content", "master/masterConfig");
         req.getRequestDispatcher("/layout.jsp").forward(req, resp);
-
     }
 }
